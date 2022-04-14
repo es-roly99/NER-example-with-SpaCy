@@ -3,12 +3,11 @@ from extractor_model import ExtractorModel
 
 PATH = "../db/"
 DB = "work-shops.csv"
-SEPARATOR = ","
 
 
 if __name__ == '__main__':
 
-    dataset = Dataset(PATH+DB, SEPARATOR)
+    dataset = Dataset(PATH+DB)
     extractor_model = ExtractorModel(dataset)
 
     # extractor_model.save_info()

@@ -3,6 +3,7 @@ Named entity recognition (NER) is a sub-task of information extraction (IE) that
 
 In this task the objective is to recognize the store number within the store description. For this, a semi-automatic model is created using Python and SpaCy (free and open- source library for NLP) for the collection of entities.
 
+_For run this project with other databases ensure that it has the same structure as 'work-shops.csv' or send directly to Dataset class the files for train, validate and test._
 
 ## Structure
 1. In the data folder will be the necessary files to create the NER.
