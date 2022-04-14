@@ -21,7 +21,7 @@
 
     ],
     "ner":[
-      "store_number"
+      "entity_detected"
     ]
   },
   "pipeline":[
@@ -40,13 +40,13 @@
     "ents_p":0.9824561404,
     "ents_r":0.9180327869,
     "ents_per_type":{
-      "store_number":{
+      "entity_detected":{
         "p":0.9824561404,
         "r":0.9180327869,
         "f":0.9491525424
       }
     },
-    "tok2vec_loss":0.0000000018,
-    "ner_loss":0.0000000022
+    "tok2vec_loss":0.0000000022,
+    "ner_loss":0.0000000026
   }
 }

@@ -7,11 +7,13 @@ import numpy as np
 
 class ExtractorModel:
 
-    def __init__(self, dataset: Dataset):
+    def __init__(self, dataset: Dataset, model_pipeline, column_descriptor, column_entity):
         self.train = dataset.train
-        self.test = dataset.test
         self.validation = dataset.validation
-        self.nlp = spacy.load('en_core_web_md')
+        self.test = dataset.test
+        self.model_pipeline = model_pipeline
+        self.column_descriptor = column_descriptor
+        self.column_entity = column_entity
 
     def evaluate_model(self):
         nlp = spacy.load("../output/model-best")
@@ -19,7 +21,7 @@ class ExtractorModel:
         columns = ['Index', 'Text', 'Original', 'Prediction']
         data = {'Index': [], 'Text': [], 'Original': [], 'Prediction': []}
 
-        for i, (description, number) in enumerate(zip(self.test['transaction_descriptor'].values, self.test['store_number'].values), 1):
+        for i, (description, number) in enumerate(zip(self.test[self.column_descriptor].values, self.test[self.column_entity].values), 1):
             data['Index'].append(i)
             data['Text'].append(description)
             data['Original'].append(number)
@@ -33,7 +35,7 @@ class ExtractorModel:
         pd.DataFrame(data, columns=columns).to_csv('../info/result.csv', index=False)
 
         predictions = np.array(predictions)
-        numbers = np.array(self.test['store_number'].values)
+        numbers = np.array(self.test[self.column_entity].values)
 
         data_analysis = dict([('Total', [len(predictions)]),
                              ('Well Predictions', [sum(predictions == numbers)]),
@@ -44,20 +46,21 @@ class ExtractorModel:
             .to_csv('../info/result_analysis.csv', index=False)
 
     def model(self):
-        transaction_descriptor = [self.train['transaction_descriptor'].values,
-                                  self.validation['transaction_descriptor'].values]
-        store_number = [self.train['store_number'].values,
-                        self.validation['store_number'].values]
+        transaction_descriptor = [self.train[self.column_descriptor].values,
+                                  self.validation[self.column_descriptor].values]
+        store_number = [self.train[self.column_entity].values,
+                        self.validation[self.column_entity].values]
         dbs = []
 
         for descriptions, numbers in zip(transaction_descriptor, store_number):
             db = DocBin()
+            nlp = spacy.load(self.model_pipeline)
             for description, number in zip(descriptions, numbers):
-                doc = self.nlp(description)
+                doc = nlp(description)
                 for token in doc:
                     if token.text[-len(number):] == number:
                         start, end, label = [(token.idx, token.idx + len(number), token.ent_type_)][0]
-                        span = doc.char_span(start, end, label='store_number')
+                        span = doc.char_span(start, end, label='entity_detected')
                         if span is not None:
                             doc.ents = [span]
                             db.add(doc)
@@ -76,11 +79,11 @@ class ExtractorModel:
 
     def save_info(self, nlp=None, option=''):
         if nlp is None:
-            nlp = self.nlp
+            nlp = spacy.load(self.model_pipeline)
         else:
             option = '_trained'
 
-        descriptions = self.test['transaction_descriptor'].values
+        descriptions = self.test[self.column_descriptor].values
         columns_tokenized = ['Index', 'Text', 'Lemma', 'Pos', 'Tag', 'Dep', 'Shape', 'Is_Alpha', 'Is_Stop']
         data_tokenized = {'Index': [], 'Text': [], 'Lemma': [], 'Pos': [], 'Tag': [], 'Dep': [],
                           'Shape': [], 'Is_Alpha': [], 'Is_Stop': []}
