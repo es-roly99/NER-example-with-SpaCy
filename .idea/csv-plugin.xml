@@ -3,20 +3,6 @@
   <component name="CsvFileAttributes">
     <option name="attributeMap">
       <map>
-        <entry key="/data/data_token.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value="," />
-            </Attribute>
-          </value>
-        </entry>
-        <entry key="/data/data_train.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value="," />
-            </Attribute>
-          </value>
-        </entry>
         <entry key="/db/Summer Internship - Homework Exercise.csv">
           <value>
             <Attribute>
@@ -59,21 +45,7 @@
             </Attribute>
           </value>
         </entry>
-        <entry key="/info/train_tokenized.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value="," />
-            </Attribute>
-          </value>
-        </entry>
-        <entry key="/info/updated_test_entities.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value="," />
-            </Attribute>
-          </value>
-        </entry>
-        <entry key="/info/updated_test_tokenized.csv">
+        <entry key="/info/test_tokenized_trained.csv">
           <value>
             <Attribute>
               <option name="separator" value="," />

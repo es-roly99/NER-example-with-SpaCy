@@ -1,9 +1,8 @@
 from dataset import Dataset
 from extractor_model import ExtractorModel
-import spacy
 
 PATH = "../db/"
-DB = "Summer Internship - Homework Exercise.csv"
+DB = "work-shops.csv"
 SEPARATOR = ","
 
 
