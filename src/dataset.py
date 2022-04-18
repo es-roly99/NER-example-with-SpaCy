@@ -3,7 +3,7 @@ import pandas as pd
 
 def read_file(path):
     try:
-        return pd.read_csv(path)
+        return pd.read_csv('../db/'+path)
     except ValueError as e:
         print(e)
 
